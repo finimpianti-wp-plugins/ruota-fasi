@@ -21,11 +21,11 @@ function rf_shortcode($atts) {
     $post = $id ? get_post($id) : null;
     $puo_vedere = current_user_can('edit_posts');
     if (!$post || $post->post_type !== RF_CPT || ($post->post_status !== 'publish' && !$puo_vedere)) {
-        return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] Ruota non trovata o non pubblicata (id ' . esc_html($atts['id']) . ').</p>' : '';
+        return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] ' . esc_html(sprintf(/* translators: %s: wheel ID. */ __('Ruota non trovata o non pubblicata (id %s).', 'ruota-fasi'), $atts['id'])) . '</p>' : '';
     }
 
     $fasi = rf_fasi($id);
-    if (!$fasi) return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] La ruota non ha fasi.</p>' : '';
+    if (!$fasi) return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] ' . esc_html__('La ruota non ha fasi.', 'ruota-fasi') . '</p>' : '';
 
     $url = plugin_dir_url(RF_FILE) . 'assets/';
     $dir = plugin_dir_path(RF_FILE) . 'assets/';
