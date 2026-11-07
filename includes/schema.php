@@ -184,14 +184,60 @@ function rf_sanifica_config($in) {
     return $out;
 }
 
-function rf_sanifica_fasi($titoli, $numeri) {
-    $fasi = [];
-    foreach ((array) $titoli as $i => $t) {
+function rf_sanifica_fasi($titoli, $numeri, $titoli_lingue = null, $fasi_salvate = []) {
+    $pulisci = function ($t) {
         // il titolo può avere più righe (a capo manuali)
-        $t = trim(preg_replace("/\n{3,}/", "\n\n", str_replace("\r", '', sanitize_textarea_field(wp_unslash($t)))));
+        return trim(preg_replace("/\n{3,}/", "\n\n", str_replace("\r", '', sanitize_textarea_field(wp_unslash((string) $t)))));
+    };
+    // Titoli nelle altre lingue: se il form non li contiene (traduttore non attivo) restano quelli salvati
+    $tieni = !is_array($titoli_lingue);
+    $fasi  = [];
+    foreach ((array) $titoli as $i => $t) {
+        $t = $pulisci($t);
         if ($t === '') continue;
-        $fasi[] = ['numero' => sanitize_text_field(wp_unslash($numeri[$i] ?? '')), 'titolo' => $t];
+        $fase = ['numero' => sanitize_text_field(wp_unslash($numeri[$i] ?? '')), 'titolo' => $t];
+        $traduzioni = [];
+        if ($tieni) {
+            foreach ((array) $fasi_salvate as $salvata) {
+                if (($salvata['titolo'] ?? null) === $t && !empty($salvata['titoli'])) { $traduzioni = (array) $salvata['titoli']; break; }
+            }
+        } else {
+            foreach ($titoli_lingue as $lingua => $valori) {
+                $lingua = sanitize_key((string) $lingua);
+                $tl     = $pulisci(((array) $valori)[$i] ?? '');
+                if ($lingua !== '' && $tl !== '') $traduzioni[$lingua] = $tl;
+            }
+        }
+        if ($traduzioni) $fase['titoli'] = $traduzioni;
+        $fasi[] = $fase;
     }
+    return $fasi;
+}
+
+// -----------------------------------------------------------------------------
+// Lingue (facoltativo, con "Elementor Page Translator"): senza il traduttore la
+// ruota funziona come prima, solo con i titoli italiani.
+// -----------------------------------------------------------------------------
+
+/** Lingue diverse da quella predefinita: [ codice => nome ]. */
+function rf_lingue() {
+    if (!function_exists('ept_languages') || !function_exists('ept_default_language')) return [];
+    $out = [];
+    foreach (ept_languages() as $codice => $l) {
+        if ($codice !== ept_default_language()) $out[(string) $codice] = (string) $l['name'];
+    }
+    return $out;
+}
+
+/** Fasi con i titoli nella lingua della pagina (vuoto = titolo italiano). */
+function rf_fasi_lingua($fasi) {
+    if (!function_exists('ept_current_language')) return $fasi;
+    $lingua = ept_current_language();
+    foreach ($fasi as &$f) {
+        if (!empty($f['titoli'][$lingua])) $f['titolo'] = $f['titoli'][$lingua];
+        unset($f['titoli']);
+    }
+    unset($f);
     return $fasi;
 }
 

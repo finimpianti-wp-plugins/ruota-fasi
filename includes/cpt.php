@@ -107,13 +107,24 @@ function rf_box_fasi($post) {
     if (!$fasi) $fasi = [['numero' => '', 'titolo' => '']];
     ?>
     <p class="rf-nota">Trascina le righe per cambiare l'ordine. Il numero si genera da solo: compilalo solo se vuoi un numero diverso (es. un anno, "1928"). Il titolo può essere anche una descrizione di più righe. Le fasi senza titolo non vengono salvate.</p>
+    <?php if (rf_lingue()): ?>
+        <p class="rf-nota">Sotto ogni titolo italiano c'è il titolo nelle altre lingue: la ruota è una sola (stesso shortcode, stile e ordine delle fasi per tutte le lingue) e sulle pagine di ogni lingua mostra i titoli di quella lingua. Se un titolo è vuoto si usa quello italiano.</p>
+    <?php endif; ?>
     <ol class="rf-fasi" id="rf-fasi">
         <?php foreach ($fasi as $f): ?>
             <li class="rf-fase-riga">
                 <span class="rf-maniglia dashicons dashicons-menu" title="Trascina per riordinare"></span>
                 <span class="rf-num-auto"></span>
                 <input type="text" class="rf-num-input" name="rf_numeri[]" value="<?= esc_attr($f['numero']) ?>" placeholder="auto" aria-label="Numero (facoltativo)">
-                <textarea class="rf-tit-input" name="rf_titoli[]" rows="1" placeholder="Titolo o descrizione della fase (Invio per andare a capo)" aria-label="Titolo"><?= esc_textarea($f['titolo']) ?></textarea>
+                <div class="rf-tit-gruppo">
+                    <textarea class="rf-tit-input" name="rf_titoli[]" rows="1" placeholder="Titolo o descrizione della fase (Invio per andare a capo)" aria-label="Titolo"><?= esc_textarea($f['titolo']) ?></textarea>
+                    <?php foreach (rf_lingue() as $lingua => $nome_lingua): ?>
+                        <label class="rf-tit-lingua">
+                            <span><?= esc_html(strtoupper($lingua)) ?></span>
+                            <textarea name="rf_titoli_lingue[<?= esc_attr($lingua) ?>][]" rows="1" placeholder="<?= esc_attr($nome_lingua . ' — vuoto = come l\'italiano') ?>" aria-label="<?= esc_attr('Titolo in ' . $nome_lingua) ?>"><?= esc_textarea($f['titoli'][$lingua] ?? '') ?></textarea>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
                 <button type="button" class="button-link rf-su" title="Sposta su" aria-label="Sposta su">▲</button>
                 <button type="button" class="button-link rf-giu" title="Sposta giù" aria-label="Sposta giù">▼</button>
                 <button type="button" class="button-link rf-elimina" title="Elimina fase" aria-label="Elimina fase"><span class="dashicons dashicons-trash"></span></button>
@@ -215,7 +226,7 @@ add_action('save_post_' . RF_CPT, function ($id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $id)) return;
 
-    update_post_meta($id, '_rf_fasi', rf_sanifica_fasi($_POST['rf_titoli'] ?? [], $_POST['rf_numeri'] ?? []));
+    update_post_meta($id, '_rf_fasi', rf_sanifica_fasi($_POST['rf_titoli'] ?? [], $_POST['rf_numeri'] ?? [], $_POST['rf_titoli_lingue'] ?? null, rf_fasi($id)));
     $cfg = rf_sanifica_config(wp_unslash((array) ($_POST['rf_cfg'] ?? [])));
     $cfg['_v'] = RF_CONFIG_VERSIONE;
     update_post_meta($id, '_rf_config', $cfg);

@@ -24,7 +24,7 @@ function rf_shortcode($atts) {
         return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] ' . esc_html(sprintf(/* translators: %s: wheel ID. */ __('Ruota non trovata o non pubblicata (id %s).', 'ruota-fasi'), $atts['id'])) . '</p>' : '';
     }
 
-    $fasi = rf_fasi($id);
+    $fasi = rf_fasi_lingua(rf_fasi($id)); // titoli nella lingua della pagina
     if (!$fasi) return $puo_vedere ? '<p style="color:#B3261E">[ruota_fasi] ' . esc_html__('La ruota non ha fasi.', 'ruota-fasi') . '</p>' : '';
 
     $url = plugin_dir_url(RF_FILE) . 'assets/';

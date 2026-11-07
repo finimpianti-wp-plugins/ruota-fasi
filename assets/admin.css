@@ -152,3 +152,10 @@
 .rf-mobile select { flex: 1; }
 .rf-mobile input:placeholder-shown { border-style: dashed; }
 .rf-mobile select:has(option[value=""]:checked) { border-style: dashed; color: var(--rf-testo); }
+
+/* Titoli nelle altre lingue (con Elementor Page Translator) */
+.rf-fase-riga .rf-tit-gruppo { flex: 1; display: flex; flex-direction: column; gap: 4px; margin-top: 0; }
+.rf-fase-riga .rf-tit-gruppo .rf-tit-input { width: 100%; }
+.rf-tit-lingua { display: flex; gap: 6px; align-items: flex-start; }
+.rf-tit-lingua > span { min-width: 26px; font-size: 11px; font-weight: 600; color: var(--rf-testo); padding-top: 6px; }
+.rf-tit-lingua textarea { flex: 1; min-height: 28px; resize: vertical; field-sizing: content; line-height: 1.4; font-size: 12px; }
