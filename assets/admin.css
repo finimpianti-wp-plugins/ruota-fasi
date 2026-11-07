@@ -1,0 +1,154 @@
+/* ============================================================
+   Ruota Fasi Finimpianti — pannello di modifica
+   ============================================================ */
+
+.post-type-rf_ruota {
+    --rf-verde: #012611;
+    --rf-verde-chiaro: #ADD9C0;
+    --rf-tinta: rgba(173, 217, 192, .22);
+    --rf-testo: rgba(1, 38, 17, .6);
+    --rf-bordo: rgba(1, 38, 17, .12);
+}
+
+.post-type-rf_ruota [hidden] { display: none !important; }
+
+.rf-nota { margin: 6px 0 0; font-size: 12px; color: var(--rf-testo); }
+
+/* Shortcode */
+.rf-copia {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--rf-tinta);
+    color: var(--rf-verde);
+    cursor: pointer;
+    user-select: all;
+    transition: background .15s;
+}
+.rf-copia:hover { background: var(--rf-verde-chiaro); }
+.rf-copia.copiato { background: var(--rf-verde); color: #fff; }
+.rf-shortcode-grande { font-size: 13px; padding: 8px 10px; }
+
+/* Anteprima */
+.rf-anteprima-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-bottom: 12px;
+}
+.rf-dispositivi { display: inline-flex; }
+.rf-dispositivi .button { border-radius: 0; }
+.rf-dispositivi .button:first-child { border-radius: 3px 0 0 3px; }
+.rf-dispositivi .button:last-child { border-radius: 0 3px 3px 0; margin-left: -1px; }
+.rf-dispositivo.attivo { background: var(--rf-verde); border-color: var(--rf-verde); color: #fff; }
+.rf-dispositivo.attivo:hover, .rf-dispositivo.attivo:focus { background: var(--rf-verde); color: #fff; }
+.rf-cursore { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; max-width: 420px; font-weight: 600; }
+.rf-cursore input { flex: 1; accent-color: var(--rf-verde); }
+
+.rf-anteprima-cornice {
+    padding: 28px 24px;
+    border: 1px solid var(--rf-bordo);
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+.rf-anteprima-cornice.mobile { background: #f3f5f4; }
+.rf-anteprima { margin: 0 auto; }
+.rf-sfondo-anteprima { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.rf-sfondo-anteprima input { width: 34px; height: 28px; padding: 0; border: 1px solid var(--rf-bordo); border-radius: 4px; cursor: pointer; }
+.rf-anteprima-cornice.mobile .rf-anteprima { box-shadow: 0 0 0 1px var(--rf-bordo); }
+.rf-vuota { margin: 40px 0; text-align: center; color: var(--rf-testo); }
+
+/* Fasi */
+.rf-fasi { margin: 12px 0; padding: 0; list-style: none; }
+.rf-fase-riga {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    padding: 6px 8px;
+    border: 1px solid var(--rf-bordo);
+    border-radius: 6px;
+    background: #fff;
+}
+.rf-fase-riga.ui-sortable-helper { box-shadow: 0 6px 18px rgba(1, 38, 17, .15); }
+.rf-fase-riga.ui-sortable-placeholder { visibility: visible !important; border: 2px dashed var(--rf-verde-chiaro); background: var(--rf-tinta); }
+.rf-maniglia { color: var(--rf-testo); cursor: grab; }
+.rf-num-auto { min-width: 26px; font-weight: 600; color: var(--rf-testo); font-variant-numeric: tabular-nums; }
+.rf-fase-riga .rf-num-input { width: 64px; }
+.rf-fase-riga { align-items: flex-start; }
+.rf-fase-riga > * { margin-top: 4px; }
+.rf-fase-riga .rf-tit-input { flex: 1; min-height: 30px; margin-top: 0; resize: vertical; field-sizing: content; line-height: 1.4; }
+.rf-fase-riga .rf-num-input { margin-top: 0; }
+.rf-fase-riga .button-link { color: var(--rf-testo); text-decoration: none; padding: 2px 4px; }
+.rf-fase-riga .button-link:hover { color: var(--rf-verde); }
+.rf-fase-riga .rf-elimina:hover { color: #B3261E; }
+#rf-aggiungi-fase .dashicons { vertical-align: text-bottom; font-size: 16px; }
+
+/* Impostazioni */
+.rf-schede {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 0 0 16px;
+    border-bottom: 1px solid var(--rf-bordo);
+}
+.rf-scheda {
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    background: none;
+    color: var(--rf-testo);
+    font-weight: 600;
+    cursor: pointer;
+}
+.rf-scheda:hover { color: var(--rf-verde); }
+.rf-scheda.attiva { border-color: var(--rf-bordo); border-bottom-color: #fff; background: #fff; color: var(--rf-verde); }
+.rf-ripristina { margin-left: auto !important; font-size: 12px; color: var(--rf-testo) !important; }
+
+.rf-gruppo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px 28px;
+}
+.rf-campo label { display: block; margin-bottom: 4px; font-weight: 600; color: var(--rf-verde); }
+.rf-campo .rf-check { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.rf-aiuto { margin: 4px 0 0; font-size: 12px; color: var(--rf-testo); }
+.rf-nota-colori { grid-column: 1 / -1; }
+
+.rf-numero { display: flex; align-items: center; gap: 8px; }
+.rf-numero input[type="range"] { flex: 1; accent-color: var(--rf-verde); }
+.rf-numero input[type="number"] { width: 76px; }
+.rf-unita { min-width: 20px; font-size: 12px; color: var(--rf-testo); }
+
+.rf-colore { display: flex; align-items: center; gap: 8px; }
+.rf-colore input[type="text"] { flex: 1; font-family: monospace; }
+.rf-campione {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid var(--rf-bordo);
+    overflow: hidden;
+    background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 50% / 10px 10px;
+}
+.rf-campione span { position: absolute; inset: 0; }
+.rf-campione input[type="color"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
+.rf-campo select { width: 100%; max-width: 100%; }
+
+/* Valori desktop / mobile */
+.rf-legenda { margin: -6px 0 16px; font-size: 12px; color: var(--rf-testo); }
+.rf-legenda .dashicons { font-size: 16px; width: 16px; height: 16px; vertical-align: text-bottom; color: var(--rf-verde); }
+.rf-legenda .dashicons-smartphone { margin-left: 10px; }
+.rf-disp { flex-shrink: 0; font-size: 16px; width: 16px; height: 16px; color: var(--rf-testo); }
+.rf-scelta { display: flex; align-items: center; gap: 8px; }
+.rf-scelta select { flex: 1; }
+.rf-mobile { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.rf-mobile input[type="number"] { width: 110px; }
+.rf-mobile select { flex: 1; }
+.rf-mobile input:placeholder-shown { border-style: dashed; }
+.rf-mobile select:has(option[value=""]:checked) { border-style: dashed; color: var(--rf-testo); }

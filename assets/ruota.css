@@ -1,0 +1,114 @@
+/* ============================================================
+   Ruota Fasi Finimpianti
+   ============================================================ */
+
+.rf-ruota {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    font-family: inherit;
+}
+
+/* Elenco delle fasi: visibile senza JavaScript, poi solo per screen reader */
+.rf-ruota .rf-elenco {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: rgba(1, 38, 17, .72);
+}
+
+.rf-ruota .rf-elenco li { margin: 0 0 6px; }
+.rf-ruota .rf-elenco-num { font-weight: 600; margin-right: 6px; }
+
+.rf-ruota.rf-pronta .rf-elenco {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.rf-ruota .rf-stage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.rf-ruota .rf-svg {
+    display: block;
+    overflow: visible;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.rf-ruota .rf-svg text {
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+}
+
+.rf-ruota .rf-num-tit { font-variant-numeric: normal; }
+
+/* Etichetta della fase attiva */
+.rf-ruota .rf-attiva {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 8px;
+    pointer-events: none;
+}
+
+.rf-ruota .rf-attiva-riga {
+    display: flex;
+    align-items: var(--rf-tit-allinea, flex-end);
+    gap: var(--rf-gap, .35em);
+}
+
+.rf-ruota .rf-attiva.rf-dentro { align-items: flex-start; }
+
+.rf-ruota .rf-attiva-num {
+    flex-shrink: 0;
+    font-size: var(--rf-dim-num);
+    font-weight: var(--rf-peso-num);
+    color: var(--rf-col-num);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.01em;
+}
+
+.rf-ruota .rf-attiva-tit {
+    max-width: var(--rf-tit-max);
+    padding-bottom: calc(var(--rf-dim-num) * .06);
+    font-size: var(--rf-dim-tit);
+    font-weight: var(--rf-peso-tit);
+    color: var(--rf-col-tit);
+    line-height: var(--rf-tit-lh, 1.2);
+    text-align: left;
+    white-space: pre-line; /* rispetta gli a capo scritti nel pannello */
+}
+
+/* Allineato alla cima del numero: la prima riga parte dall'altezza delle cifre */
+.rf-ruota .rf-attiva-tit[data-allinea="alto"] { padding-bottom: 0; padding-top: calc(var(--rf-dim-num) * .1); }
+
+.rf-ruota .rf-attiva-riga > * {
+    transition: opacity .17s ease, transform .17s ease;
+}
+
+.rf-ruota .rf-attiva.rf-cambio .rf-attiva-riga > * {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rf-ruota .rf-attiva-riga > * { transition: none; }
+}
+
+/* Mentre la ruota gira la pagina non deve scorrere col dito (vedi blocca() in ruota.js) */
+html.rf-pagina-ferma,
+html.rf-pagina-ferma body {
+    touch-action: none;
+    overscroll-behavior: none;
+}
