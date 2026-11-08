@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ruota Fasi
  * Description: Ruota animata con le fasi di sviluppo di un progetto. Shortcode: [ruota_fasi id="123"]
- * Version: 1.6
+ * Version: 1.6.1
  * Author: Finimpianti
  * Text Domain: ruota-fasi
  * Domain Path: /languages
@@ -13,7 +13,7 @@
 
 defined('ABSPATH') || exit;
 
-define('RF_VERSION', '1.6');
+define('RF_VERSION', '1.6.1');
 define('RF_FILE',    __FILE__);
 define('RF_CPT',     'rf_ruota');
 
