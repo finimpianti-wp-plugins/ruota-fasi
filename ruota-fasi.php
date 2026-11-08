@@ -6,7 +6,7 @@
  * Author: Finimpianti
  * Text Domain: ruota-fasi
  * Domain Path: /languages
- * Update URI: https://github.com/apgr01/ruota-fasi
+ * Update URI: https://github.com/finimpianti-wp-plugins/ruota-fasi
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -30,7 +30,7 @@ require_once __DIR__ . '/includes/shortcode.php';
 // RF_UPDATE_REPO in wp-config.php; APGR_GITHUB_TOKEN (facoltativo) serve solo per repository
 // privati o per superare i limiti di richieste di GitHub.
 if ( ! defined( 'RF_UPDATE_REPO' ) ) {
-	define( 'RF_UPDATE_REPO', 'https://github.com/apgr01/ruota-fasi/' );
+	define( 'RF_UPDATE_REPO', 'https://github.com/finimpianti-wp-plugins/ruota-fasi/' );
 }
 require_once __DIR__ . '/lib/plugin-update-checker/plugin-update-checker.php';
 $rf_aggiornamenti = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker( RF_UPDATE_REPO, __FILE__, 'ruota-fasi' );
