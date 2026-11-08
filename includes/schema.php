@@ -184,11 +184,13 @@ function rf_sanifica_config($in) {
     return $out;
 }
 
+/** Titolo di una fase ripulito: testo semplice, anche su più righe (a capo manuali). */
+function rf_pulisci_titolo($t) {
+    return trim(preg_replace("/\n{3,}/", "\n\n", str_replace("\r", '', sanitize_textarea_field((string) $t))));
+}
+
 function rf_sanifica_fasi($titoli, $numeri, $titoli_lingue = null, $fasi_salvate = []) {
-    $pulisci = function ($t) {
-        // il titolo può avere più righe (a capo manuali)
-        return trim(preg_replace("/\n{3,}/", "\n\n", str_replace("\r", '', sanitize_textarea_field(wp_unslash((string) $t)))));
-    };
+    $pulisci = fn($t) => rf_pulisci_titolo(wp_unslash((string) $t));
     // Titoli nelle altre lingue: se il form non li contiene (traduttore non attivo) restano quelli salvati
     $tieni = !is_array($titoli_lingue);
     $fasi  = [];
@@ -247,8 +249,11 @@ const RF_CONFIG_VERSIONE = 2;
 /** Impostazioni di una ruota, completate con i default (anche per opzioni aggiunte in futuro). */
 function rf_config($id) {
     $cfg = get_post_meta($id, '_rf_config', true);
-    $cfg = is_array($cfg) ? $cfg : [];
+    return rf_sanifica_config(rf_migra_config(is_array($cfg) ? $cfg : []) + rf_default());
+}
 
+/** Adegua impostazioni salvate (o esportate) con una versione precedente del formato. */
+function rf_migra_config($cfg) {
     // Versione 1 → 2: titoli più grandi e scroll per fase più corto (la pagina ora
     // si ferma del tutto). Si aggiornano solo i valori rimasti quelli predefiniti.
     if ($cfg && (int) ($cfg['_v'] ?? 1) < 2) {
@@ -258,7 +263,7 @@ function rf_config($id) {
         if ((float) ($cfg['durata'] ?? 0) == 700)     $cfg['durata']      = 600;
         if ((float) ($cfg['diametro'] ?? 0) > 100)    $cfg['diametro']    = 100;
     }
-    return rf_sanifica_config($cfg + rf_default());
+    return $cfg;
 }
 
 function rf_fasi($id) {

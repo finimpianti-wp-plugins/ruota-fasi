@@ -74,6 +74,13 @@ function rf_box_shortcode($post) {
         <p class="rf-nota">La ruota viene mostrata nel sito solo dopo aver premuto <strong>Pubblica</strong>.</p>
     <?php endif; ?>
     <p class="rf-nota">Le modifiche si vedono nel sito dopo aver premuto <strong>Aggiorna</strong>.</p>
+    <?php if ($post->post_status !== 'auto-draft'): ?>
+        <p class="rf-azioni-ruota">
+            <a class="button" href="<?= esc_url(rf_url_azione('rf_esporta', $post->ID)) ?>" title="Scarica un file con fasi e impostazioni, da importare in un altro sito">Esporta</a>
+            <a class="button" href="<?= esc_url(rf_url_azione('rf_duplica', $post->ID)) ?>" title="Crea una copia di questa ruota (in bozza)">Duplica</a>
+        </p>
+        <p class="rf-nota">Esporta e Duplica usano l'ultima versione salvata: premi prima <strong>Aggiorna</strong> se hai modifiche in sospeso.</p>
+    <?php endif; ?>
     <?php
 }
 
@@ -226,8 +233,9 @@ add_action('save_post_' . RF_CPT, function ($id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $id)) return;
 
-    update_post_meta($id, '_rf_fasi', rf_sanifica_fasi($_POST['rf_titoli'] ?? [], $_POST['rf_numeri'] ?? [], $_POST['rf_titoli_lingue'] ?? null, rf_fasi($id)));
+    // wp_slash: update_post_meta() toglie le barre rovesciate, che invece vanno conservate nei titoli
+    update_post_meta($id, '_rf_fasi', wp_slash(rf_sanifica_fasi($_POST['rf_titoli'] ?? [], $_POST['rf_numeri'] ?? [], $_POST['rf_titoli_lingue'] ?? null, rf_fasi($id))));
     $cfg = rf_sanifica_config(wp_unslash((array) ($_POST['rf_cfg'] ?? [])));
     $cfg['_v'] = RF_CONFIG_VERSIONE;
-    update_post_meta($id, '_rf_config', $cfg);
+    update_post_meta($id, '_rf_config', wp_slash($cfg));
 });

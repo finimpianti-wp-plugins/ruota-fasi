@@ -11,4 +11,6 @@ Ruota animata con le fasi di un progetto, con i titoli in più lingue. Shortcode
 
 Ruota animata con le fasi di un progetto, con i titoli in più lingue. Shortcode [ruota_fasi id="123"].
 
+Ogni ruota si può esportare in un file .json, importare in un altro sito (Ruote fasi -> Importa ruota) o duplicare.
+
 Gli aggiornamenti arrivano da GitHub: ogni nuova versione compare in Bacheca -> Aggiornamenti.

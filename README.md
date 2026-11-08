@@ -2,6 +2,10 @@
 
 Ruota animata con le fasi di sviluppo di un progetto: `[ruota_fasi id="123"]`. Con Elementor Page Translator: titoli delle fasi per lingua nella stessa ruota.
 
+## Esporta, importa, duplica
+
+Nell'elenco *Ruote fasi* (passando sopra una ruota) o nella sua pagina di modifica: **Esporta** scarica un file `.json` con nome, fasi (anche i titoli per lingua) e impostazioni; **Duplica** crea una copia in bozza. Con **Importa ruota** (in cima all'elenco) il file diventa una nuova ruota in bozza, anche in un altro sito: nessuna ruota esistente viene modificata.
+
 ## Installazione
 
 1. Scarica lo zip dell'ultima versione da **Releases** (a destra in questa pagina): `ruota-fasi-<versione>.zip`.

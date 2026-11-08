@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ruota Fasi
  * Description: Ruota animata con le fasi di sviluppo di un progetto. Shortcode: [ruota_fasi id="123"]
- * Version: 1.6.1
+ * Version: 1.7
  * Author: Finimpianti
  * Text Domain: ruota-fasi
  * Domain Path: /languages
@@ -13,7 +13,7 @@
 
 defined('ABSPATH') || exit;
 
-define('RF_VERSION', '1.6.1');
+define('RF_VERSION', '1.7');
 define('RF_FILE',    __FILE__);
 define('RF_CPT',     'rf_ruota');
 
@@ -24,6 +24,7 @@ add_action('init', function () {
 require_once __DIR__ . '/includes/schema.php';
 require_once __DIR__ . '/includes/cpt.php';
 require_once __DIR__ . '/includes/shortcode.php';
+require_once __DIR__ . '/includes/trasferimento.php';
 
 // Aggiornamenti da GitHub: ogni release del repository (con lo zip del plugin) compare in
 // Bacheca -> Aggiornamenti e si installa con un clic. Il repository si può cambiare definendo
