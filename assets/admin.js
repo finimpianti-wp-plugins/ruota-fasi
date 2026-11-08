@@ -1,5 +1,5 @@
 /* ============================================================
-   Ruota Fasi Finimpianti — pannello di modifica
+   Ruota Fasi — pannello di modifica
    ============================================================ */
 
 (function ($) {

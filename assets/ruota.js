@@ -1,5 +1,5 @@
 /* ============================================================
-   Ruota Fasi Finimpianti — motore
+   Ruota Fasi — motore
    Disegna la ruota in SVG e la fa girare con lo scroll: quando la
    ruota arriva in posizione la pagina si ferma, lo scroll verso il
    basso la fa avanzare e verso l'alto tornare indietro; finite le
